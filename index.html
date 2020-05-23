@@ -41,6 +41,10 @@
                     this.def = status[CHARACTER_DEF];
                     this.active = true;
                 }
+                attackTo(character) {
+                    console.log(this.name+" のこうげき！")
+                    character.damage(this.atk);
+                }
                 damage(atk) {
                     let damage = Math.max(atk-this.def, 1); // ダメージが0以下になるとHPが減らずバトルが終わらないので下限値を1にしておく
                     this.hp -= damage;

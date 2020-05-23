@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <script>
+            // データ
+            const CHARACTER_NAME = 0;
+            const CHARACTER_HP = 1;
+            const CHARACTER_ATK = 2;
+            const CHARACTER_DEF = 3;
+            const PLAYER_DATA = [
+                ["ああああ",30,42,21],
+                ["ゆうしゃ",50,22,18],
+                ["すんどぶ",42,50,10]
+            ];
+            const ENEMY_DATA = [
+                ["スライム",10, 7, 3],
+                ["ゴブリン",15,10, 4],
+                ["ドラゴン",31,24,25],
+                ["まおう様",84,35,20]
+            ];
+            // キャラクタークラス
+            class Character {
+                constructor(type, status) {
+                    this.type = type;
+                    this.name = status[CHARACTER_NAME];
+                    this.hp = status[CHARACTER_HP];
+                    this.atk = status[CHARACTER_ATK];
+                    this.def = status[CHARACTER_DEF];
+                    this.active = true;
+                }
+                attackTo(character) {
+                    console.log(this.name+"のこうげき！");
+                    character.damage(this.atk);
+                }
+                damage(atk) {
+                    let damage = Math.max(atk-this.def, 1); // ダメージが0以下になるとHPが減らずバトルが終わらないので下限値を1にしておく
+                    this.hp -= damage;
+                    console.log(this.name+"は"+damage+"のダメージを受けた！");
+                    if (this.hp<=0) {
+                        this.active = false;
+                        switch (this.type) {
+                            case "player":
+                                console.log(this.name+"はちからつきた・・・");
+                            break;
+                            case "npc":
+                                console.log(this.name+"を倒した！！");
+                            break;
+                        }
+                    }
+                }
+                isDead() {
+                    return !this.active;
+                }
+            }
+            // プレイヤーログイン
+            let player = new Character("player", PLAYER_DATA[1]);
+
+            // 敵との遭遇
+            let monster = new Character("npc", ENEMY_DATA[parseInt(Math.random()*ENEMY_DATA.length)]);
+            console.log(monster.name+" があらわれた！！");
+
+            // 壮絶なバトル
+            let turn=0;
+            while(++turn) {
+                console.log(turn+"ターン目");
+                player.attackTo(monster);
+                if (monster.isDead()) {
+                    break;
+                }
+                monster.attackTo(player);
+                if (player.isDead()) {
+                    break;
+                }
+                console.log("");
+            }
+        </script>
+    </body>
+</html>

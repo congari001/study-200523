@@ -5,6 +5,16 @@
     </head>
     <body>
         <script>
+            /**
+             * クラス名を大文字で始める理由
+             * 　命名ルールを決めておくことで、パッと見でそれが何かを判断できる
+             *
+             * メソッド定義時にエラーになる書き方
+             * class c {
+             *   function func() {} // NG
+             *   func() {} // OK
+             * }
+             */
             // データ
             const CHARACTER_NAME = 0;
             const CHARACTER_HP = 1;
@@ -30,10 +40,6 @@
                     this.atk = status[CHARACTER_ATK];
                     this.def = status[CHARACTER_DEF];
                     this.active = true;
-                }
-                attackTo(character) {
-                    console.log(this.name+"のこうげき！");
-                    character.damage(this.atk);
                 }
                 damage(atk) {
                     let damage = Math.max(atk-this.def, 1); // ダメージが0以下になるとHPが減らずバトルが終わらないので下限値を1にしておく
